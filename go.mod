@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/fatih/structs v1.1.0
 	github.com/fluffy-bunny/viperEx v0.0.26
+	github.com/go-resty/resty/v2 v2.7.0
 	github.com/labstack/echo/v4 v4.8.0
 	github.com/rs/zerolog v1.27.0
 	github.com/spf13/viper v1.12.0
@@ -13,7 +14,6 @@ require (
 
 require (
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
-	github.com/go-resty/resty/v2 v2.7.0 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect

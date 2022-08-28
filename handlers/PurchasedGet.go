@@ -86,7 +86,7 @@ func (c *Container) PurchasedGet(ctx echo.Context) error {
 	if statusCode != http.StatusOK {
 		log.Info().Int("status_code", resp.StatusCode()).Str("body", string(resp.Body())).Send()
 		return ctx.JSON(http.StatusBadRequest, models.HelloWorld{
-			Message: "failed_to_get_subscription_info - status_code:" + string(statusCode),
+			Message: fmt.Sprintf("failed_to_get_subscription_info_status_code_%d", statusCode),
 		})
 	}
 
@@ -97,10 +97,8 @@ func (c *Container) PurchasedGet(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, models.HelloWorld{
 			Message: "failed_to_unmarshal_subscription_info",
 		})
-
-		return c.Redirect(http.StatusFound, wellknown.ErrorPath+"?error=failed_to_unmarshal_subscription_info")
 	}
 	log.Info().Interface("subInfo", subInfo).Send()
-	subInfoJson, _ := json.Marshal(subInfo)
+	return ctx.JSON(http.StatusOK, subInfo)
 
 }
