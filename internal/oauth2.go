@@ -1,3 +1,10 @@
+/*
+References:
+https://docs.microsoft.com/en-us/azure/marketplace/partner-center-portal/pc-saas-registration
+this tells you how to make a AD app, I used my Mono app that got deployed to azure when I created my clientid/secret
+
+Also, this is there that resource = "20e940b3-4c77-4b0b-9a53-9e16a1b010a7" is documented.
+*/
 package internal
 
 import (
@@ -31,6 +38,9 @@ func MakeAzureHttpClient() error {
 		ClientSecret: AppConfig.AzureAD.Credentials.ClientSecret,
 		TokenURL:     tokenEndpoint,
 		EndpointParams: url.Values{
+			// https://docs.microsoft.com/en-us/azure/marketplace/partner-center-portal/pc-saas-registration
+			// "resource": []string{"20e940b3-4c77-4b0b-9a53-9e16a1b010a7"},
+			//-----------------------------------------------
 			"resource": []string{"20e940b3-4c77-4b0b-9a53-9e16a1b010a7"},
 		},
 	}
