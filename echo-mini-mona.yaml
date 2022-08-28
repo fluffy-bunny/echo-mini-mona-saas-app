@@ -1,0 +1,177 @@
+openapi: 3.0.0
+info:
+  title: echo-mona
+  version: 1.0.0
+servers:
+  - url: 'http://{{host}}'
+paths:
+  '/api/{version}/saas/suspend':
+    post:
+      tags:
+        - default
+      summary: suspend - POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                id: <guid>
+                activityId: <guid>
+                publisherId: testpublisher
+                offerId: testoffer
+                planId: starter
+                quantity: 1
+                subscriptionId: <guid>
+                timeStamp: '2022-03-10T16:34:41.137017Z'
+                action: Suspend
+                status: Succeeded
+                operationRequestSource: Azure
+                subscription:
+                  id: <guid>
+                  name: testcms
+                  publisherId: testpublisher
+                  offerId: cmstestoffer
+                  planId: starter
+                  quantity: null
+                  beneficiary:
+                    emailId: XXX
+                    objectId: <guid>
+                    tenantId: <guid>
+                    puid: XXX
+                  purchaser:
+                    emailId: XXX
+                    objectId: <guid>
+                    tenantId: <guid>
+                    puid: XXX
+                  allowedCustomerOperations:
+                    - Delete
+                    - Update
+                    - Read
+                  sessionMode: None
+                  isFreeTrial: false
+                  isTest: false
+                  sandboxType: None
+                  saasSubscriptionStatus: Subscribed
+                  term:
+                    startDate: '2022-03-09T00:00:00Z'
+                    endDate: '2022-04-08T00:00:00Z'
+                    termUnit: P1M
+                    chargeDuration: null
+                  autoRenew: true
+                  created: '2022-03-09T18:45:49.0735944Z'
+                  lastModified: '2022-03-09T22:49:25.4181451Z'
+                purchaseToken: null
+      parameters:
+        - name: version
+          in: path
+          schema:
+            type: string
+          required: true
+          example: '{{api_version}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  '/api/{version}/saas/purchased/{subscription-id}':
+    parameters:
+      - schema:
+          type: string
+        name: version
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: subscription-id
+        in: path
+        required: true
+    get:
+      summary: purchased
+      operationId: get-api-version-saas-purchased-subscription-id
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: _sub
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+  '/api/{version}/saas/unsubscribe':
+    post:
+      tags:
+        - default
+      summary: unsubscribe POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                id: <guid>
+                activityId: <guid>
+                publisherId: testpublisher
+                offerId: testoffer
+                planId: starter
+                quantity: 1
+                subscriptionId: <guid>
+                timeStamp: '2022-03-10T16:34:41.137017Z'
+                action: Suspend
+                status: Succeeded
+                operationRequestSource: Azure
+                subscription:
+                  id: <guid>
+                  name: testcms
+                  publisherId: testpublisher
+                  offerId: cmstestoffer
+                  planId: starter
+                  quantity: null
+                  beneficiary:
+                    emailId: XXX
+                    objectId: <guid>
+                    tenantId: <guid>
+                    puid: XXX
+                  purchaser:
+                    emailId: XXX
+                    objectId: <guid>
+                    tenantId: <guid>
+                    puid: XXX
+                  allowedCustomerOperations:
+                    - Delete
+                    - Update
+                    - Read
+                  sessionMode: None
+                  isFreeTrial: false
+                  isTest: false
+                  sandboxType: None
+                  saasSubscriptionStatus: Subscribed
+                  term:
+                    startDate: '2022-03-09T00:00:00Z'
+                    endDate: '2022-04-08T00:00:00Z'
+                    termUnit: P1M
+                    chargeDuration: null
+                  autoRenew: true
+                  created: '2022-03-09T18:45:49.0735944Z'
+                  lastModified: '2022-03-09T22:49:25.4181451Z'
+                purchaseToken: null
+      parameters:
+        - name: version
+          in: path
+          schema:
+            type: string
+          required: true
+          example: '{{api_version}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
