@@ -64,41 +64,40 @@ func (c *Container) PurchasedGet(ctx echo.Context) error {
 		return err
 	}
 	log = log.With().Str("subscription_id", u.SubscriptionID).Logger()
-	log.Info().Send()
-	return ctx.JSON(http.StatusOK, models.HelloWorld{
-		Message: "Hello World",
-	})
+	log.Info().Msg("got subscription_id")
 
 	subInfoUrl := fmt.Sprintf(subscriptionInfoFmt, internal.AppConfig.MonaStorageAccountName, u.SubQuery)
 	log.Info().Str("subInfoUrl", subInfoUrl).Send()
 
+	subInfo, err := FetchSubscriptionInfo(subInfoUrl)
+	if err != nil {
+		log.Error().Err(err).Msg("error fetching subscription info")
+		return ctx.JSON(http.StatusBadRequest, models.HelloWorld{
+			Message: err.Error(),
+		})
+	}
+
+	log.Info().Interface("subInfo", subInfo).Send()
+	return ctx.JSON(http.StatusOK, subInfo)
+
+}
+func FetchSubscriptionInfo(subInfoUrl string) (*models.SubscriptionInfo, error) {
 	client := resty.New()
 	resp, err := client.R().
 		EnableTrace().
 		Get(subInfoUrl)
 	if err != nil {
-		log.Error().Err(err).Send()
-		return ctx.JSON(http.StatusBadRequest, models.HelloWorld{
-			Message: "failed_to_get_subscription_info",
-		})
+		return nil, err
 	}
 	statusCode := resp.StatusCode()
 	if statusCode != http.StatusOK {
-		log.Info().Int("status_code", resp.StatusCode()).Str("body", string(resp.Body())).Send()
-		return ctx.JSON(http.StatusBadRequest, models.HelloWorld{
-			Message: fmt.Sprintf("failed_to_get_subscription_info_status_code_%d", statusCode),
-		})
+		return nil, fmt.Errorf("failed_to_get_subscription_info_status_code_%d", statusCode)
 	}
 
 	subInfo := &models.SubscriptionInfo{}
 	err = json.Unmarshal(resp.Body(), &subInfo)
 	if err != nil {
-		log.Error().Err(err).Send()
-		return ctx.JSON(http.StatusBadRequest, models.HelloWorld{
-			Message: "failed_to_unmarshal_subscription_info",
-		})
+		return nil, err
 	}
-	log.Info().Interface("subInfo", subInfo).Send()
-	return ctx.JSON(http.StatusOK, subInfo)
-
+	return subInfo, nil
 }
