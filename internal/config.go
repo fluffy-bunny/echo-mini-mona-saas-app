@@ -23,12 +23,12 @@ type (
 	}
 )
 
-const (
-	// https://login.microsoftonline.com/{{tenant_id}}/oauth2/token
-	TokenEndpointFormat = "https://login.microsoftonline.com/%s/oauth2/v2.0/token"
-)
+func init() {
+	AppConfig = &Config{}
+}
 
 var (
+	AppConfig         *Config
 	ConfigDefaultJSON = []byte(`
 	{
 		"PORT": 1111,

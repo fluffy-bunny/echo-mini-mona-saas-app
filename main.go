@@ -16,11 +16,17 @@ import (
 
 // https://docs.microsoft.com/en-us/azure/marketplace/partner-center-portal/pc-saas-fulfillment-webhook
 func main() {
-	config := &internal.Config{}
-	err := ReadViperConfig(internal.ConfigDefaultJSON, config)
+	err := ReadViperConfig(internal.ConfigDefaultJSON, internal.AppConfig)
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to read config")
 	}
+	err = internal.MakeAzureHttpClient()
+	if err != nil {
+		log.Fatal().Err(err).Msg("Failed to make azure http client")
+	}
+
+	// test call to get all our subscriptions
+	internal.DumpGetSubscriptions()
 
 	e := echo.New()
 
@@ -58,7 +64,7 @@ func main() {
 	e.GET("/api/:version/saas/configure/:subscription-id", c.ConfigureGet)
 
 	// Start server
-	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", config.Port)))
+	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", internal.AppConfig.Port)))
 }
 
 // ReadViperConfig initial read
