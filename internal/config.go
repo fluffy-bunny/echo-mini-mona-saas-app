@@ -18,8 +18,9 @@ type (
 		Credentials OAuth2ClientCredentials `json:"credentials" mapstructure:"CREDENTIALS"`
 	}
 	Config struct {
-		Port    int     `json:"port" mapstructure:"PORT"`
-		AzureAD AzureAD `json:"azure_ad" mapstructure:"AZURE_AD"`
+		Port                   int     `json:"port" mapstructure:"PORT"`
+		AzureAD                AzureAD `json:"azure_ad" mapstructure:"AZURE_AD"`
+		MonaStorageAccountName string  `json:"mona_storage_account_name" mapstructure:"MONA_STORAGE_ACCOUNT_NAME"`
 	}
 )
 
@@ -32,6 +33,7 @@ var (
 	ConfigDefaultJSON = []byte(`
 	{
 		"PORT": 1111,
+		"MONA_STORAGE_ACCOUNT_NAME": "monastorage<in-environemnt>",
 		"AZURE_AD": {
 			"TENANT": "<in-environemnt>",
 			"CREDENTIALS": {
