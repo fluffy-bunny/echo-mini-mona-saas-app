@@ -58,10 +58,10 @@ func main() {
 	// Landing Pages
 	//---------------------------------------------------------
 	// PurchasedGet - purchased
-	e.GET("/api/:version/saas/purchased/:subscription-id", c.PurchasedGet)
+	e.GET("/api/:version/saas/purchased/:subscription_id", c.PurchasedGet)
 
 	// ConfigureGet - configure
-	e.GET("/api/:version/saas/configure/:subscription-id", c.ConfigureGet)
+	e.GET("/api/:version/saas/configure/:subscription_id", c.ConfigureGet)
 
 	// Start server
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", internal.AppConfig.Port)))

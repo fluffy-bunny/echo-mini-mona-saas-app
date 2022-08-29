@@ -63,7 +63,10 @@ func (c *Container) PurchasedGet(ctx echo.Context) error {
 	if err := ctx.Bind(u); err != nil {
 		return err
 	}
-	log = log.With().Str("subscription_id", u.SubscriptionID).Logger()
+	log = log.With().Interface("params", u).Logger()
+	if len(u.SubQuery) == 0 || len(u.SubscriptionID) == 0 {
+		return ctx.JSON(http.StatusBadRequest, "missing_params")
+	}
 	log.Info().Msg("got subscription_id")
 
 	subInfoUrl := fmt.Sprintf(subscriptionInfoFmt, internal.AppConfig.MonaStorageAccountName, u.SubQuery)
