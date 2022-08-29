@@ -12,6 +12,10 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// References:
+//--------------------------------------------------
+// https://github.com/microsoft/mona-saas/tree/main/docs#what-is-the-subscription-purchase-confirmation-page
+
 const (
 	// https://e9e3-172-90-216-122.ngrok.io/saas/purchased/426159d1-821c-4fe0-c981-7b7033bb0895?_sub=%2Fstage-subscriptions%2F426159d1-821c-4fe0-c981-7b7033bb0895%3Fsv%3D2020-04-08%26se%3D2022-08-26T17%253A15%253A13Z%26sr%3Db%26sp%3Dr%26sig%3DqZ57djvRdaPgKIw5kBia2CJi3FJNVSAXh%252F6NYrRFpII%253D
 	// our endpoint gets called with an url that looks like this.
@@ -51,7 +55,7 @@ const (
 	subscriptionInfoFmt = "https://%s.blob.core.windows.net%s"
 )
 
-type params struct {
+type purchasedParams struct {
 	SubscriptionID string `param:"subscription_id" query:"subscription_id" header:"subscription_id" form:"subscription_id" json:"subscription_id" xml:"subscription_id"`
 	SubQuery       string `param:"_sub" query:"_sub" header:"_sub" form:"_sub" json:"_sub" xml:"_sub"`
 }
@@ -59,7 +63,7 @@ type params struct {
 // PurchasedGet - purchased
 func (c *Container) PurchasedGet(ctx echo.Context) error {
 	log := log.With().Caller().Str("func", "PurchasedGet").Logger()
-	u := new(params)
+	u := new(purchasedParams)
 	if err := ctx.Bind(u); err != nil {
 		return err
 	}
