@@ -13,7 +13,7 @@ var (
 	GetSubscriptionURL = "https://marketplaceapi.microsoft.com/api/saas/subscriptions/%s?api-version=2018-08-31"
 )
 
-func (s *FullfillmentAPIS) GetSubscription(id string) (*models.Subscription, error) {
+func (s *Service) GetSubscription(id string) (*models.Subscription, error) {
 	url := fmt.Sprintf(GetSubscriptionURL, id)
 	httpResponse, err := s.client.Get(url)
 	if err != nil {

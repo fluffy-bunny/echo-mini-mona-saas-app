@@ -15,7 +15,7 @@ var (
 	ActivateSubscriptionURL = "https://marketplaceapi.microsoft.com/api/saas/subscriptions/%s/activate?api-version=2018-08-31"
 )
 
-func (s *FullfillmentAPIS) ActivateSubscription(id string, request *models.ActivateRequest) error {
+func (s *Service) ActivateSubscription(id string, request *models.ActivateRequest) error {
 	url := fmt.Sprintf(ActivateSubscriptionURL, id)
 
 	body, _ := json.Marshal(request)
@@ -32,6 +32,8 @@ func (s *FullfillmentAPIS) ActivateSubscription(id string, request *models.Activ
 	if resp.StatusCode == http.StatusOK {
 		return nil
 	}
+	log.Error().Int("StatusCode", resp.StatusCode).Msg("Failed to activate subscription")
+
 	return fmt.Errorf("failed to activate subscription. status Code: %d", resp.StatusCode)
 
 }

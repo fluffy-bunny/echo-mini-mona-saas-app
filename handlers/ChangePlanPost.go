@@ -20,6 +20,10 @@ func (c *Container) ChangePlanPost(ctx echo.Context) error {
 		log.Error().Err(err).Msg("Failed to unmarshal body")
 		return ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{Error: err.Error()})
 	}
-
+	err = internal.SendOperationUpdateSuccess(record.SubscriptionID, record.ID)
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to update operation")
+		return ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{Error: err.Error()})
+	}
 	return ctx.JSON(http.StatusOK, record)
 }

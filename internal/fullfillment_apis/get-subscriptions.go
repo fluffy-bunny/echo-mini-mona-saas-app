@@ -11,7 +11,7 @@ var (
 	GetSubscriptionsURL = "https://marketplaceapi.microsoft.com/api/saas/subscriptions?api-version=2018-08-31"
 )
 
-func (s *FullfillmentAPIS) GetSubscriptions() ([]models.Subscription, error) {
+func (s *Service) GetSubscriptions() ([]models.Subscription, error) {
 	httpResponse, err := s.client.Get(GetSubscriptionsURL)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to get subscriptions")
