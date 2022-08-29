@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/fluffy-bunny/echo_mini_mona_saas_app/internal"
+	"github.com/fluffy-bunny/echo_mini_mona_saas_app/internal/fullfillment_apis"
 	"github.com/fluffy-bunny/echo_mini_mona_saas_app/models"
 	"github.com/go-resty/resty/v2"
 	"github.com/labstack/echo/v4"
@@ -65,7 +66,7 @@ func (c *Container) PurchasedGet(ctx echo.Context) error {
 	log := log.With().Caller().Str("func", "PurchasedGet").Logger()
 	u := new(purchasedParams)
 	if err := ctx.Bind(u); err != nil {
-		return err
+		return ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{Error: err.Error()})
 	}
 	log = log.With().Interface("params", u).Logger()
 	if len(u.SubQuery) == 0 || len(u.SubscriptionID) == 0 {
@@ -79,12 +80,19 @@ func (c *Container) PurchasedGet(ctx echo.Context) error {
 	subInfo, err := FetchSubscriptionInfo(subInfoUrl)
 	if err != nil {
 		log.Error().Err(err).Msg("error fetching subscription info")
-		return ctx.JSON(http.StatusBadRequest, models.HelloWorld{
-			Message: err.Error(),
-		})
+		return ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{Error: err.Error()})
 	}
-
 	log.Info().Interface("subInfo", subInfo).Send()
+
+	fa := fullfillment_apis.New(internal.AzureHttpClient)
+	err = fa.ActivateSubscription(u.SubscriptionID, &models.ActivateRequest{
+		PlanID:   "plan:pro",
+		Quantity: internal.StringPointer("1"),
+	})
+	if err != nil {
+		log.Error().Err(err).Msg("error activating subscription")
+		return ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{Error: err.Error()})
+	}
 	return ctx.JSON(http.StatusOK, subInfo)
 
 }

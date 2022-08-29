@@ -246,4 +246,46 @@ type (
 		} `json:"subscription"`
 		PurchaseToken string `json:"purchaseToken"`
 	}
+	Subscription struct {
+		ID          string `json:"id"`
+		Name        string `json:"name"`
+		PublisherID string `json:"publisherId"`
+		OfferID     string `json:"offerId"`
+		PlanID      string `json:"planId"`
+		Quantity    int    `json:"quantity"`
+		Beneficiary struct {
+			EmailID  string `json:"emailId"`
+			ObjectID string `json:"objectId"`
+			TenantID string `json:"tenantId"`
+			Puid     string `json:"puid"`
+		} `json:"beneficiary"`
+		Purchaser struct {
+			EmailID  string `json:"emailId"`
+			ObjectID string `json:"objectId"`
+			TenantID string `json:"tenantId"`
+			Puid     string `json:"puid"`
+		} `json:"purchaser"`
+		AllowedCustomerOperations []string  `json:"allowedCustomerOperations"`
+		SessionMode               string    `json:"sessionMode"`
+		IsFreeTrial               bool      `json:"isFreeTrial"`
+		AutoRenew                 bool      `json:"autoRenew"`
+		IsTest                    bool      `json:"isTest"`
+		SandboxType               string    `json:"sandboxType"`
+		Created                   time.Time `json:"created"`
+		LastModified              string    `json:"lastModified"`
+		SaasSubscriptionStatus    string    `json:"saasSubscriptionStatus"`
+		Term                      struct {
+			StartDate time.Time `json:"startDate"`
+			EndDate   time.Time `json:"endDate"`
+			TermUnit  string    `json:"termUnit"`
+		} `json:"term"`
+	}
+	Subscriptions struct {
+		Subscriptions []Subscription `json:"subscriptions"`
+	}
+	// https://docs.microsoft.com/en-us/azure/marketplace/partner-center-portal/pc-saas-fulfillment-subscription-api#post-httpsmarketplaceapimicrosoftcomapisaassubscriptionssubscriptionidactivateapi-versionapiversion
+	ActivateRequest struct {
+		PlanID   string  `json:"planId"`
+		Quantity *string `json:"quantity"`
+	}
 )

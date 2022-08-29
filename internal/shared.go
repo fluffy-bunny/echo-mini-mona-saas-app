@@ -2,27 +2,30 @@ package internal
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
-
-	"github.com/labstack/echo/v4"
 )
 
-func UnmarshalFromRequestBody(ctx echo.Context, v interface{}) error {
-	reuseableReader, err := ReusableReader(ctx.Request().Body)
+func UnmarshalFromRequestBody(body io.Reader, v interface{}) error {
+	if body == nil {
+		return errors.New("body is nil")
+	}
+	reuseableReader, err := ReusableReader(body)
 	if err != nil {
 		return err
 	}
 
 	var bodyBytes []byte
 	// Read the Body content
-
-	if ctx.Request().Body != nil {
-		bodyBytes, _ = io.ReadAll(reuseableReader)
-	}
+	bodyBytes, _ = io.ReadAll(reuseableReader)
 
 	err = json.Unmarshal(bodyBytes, &v)
 	if err != nil {
 		return err
 	}
 	return nil
+}
+
+func StringPointer(value string) *string {
+	return &value
 }

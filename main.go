@@ -51,7 +51,6 @@ func main() {
 	e.POST("/api/:version/saas/unsubscribe", c.UnsubscribePost)
 	// ReinstatePost - reinstate POST
 	e.POST("/api/:version/saas/reinstate", c.ReinstatePost)
-
 	// SuspendPost - suspend - POST
 	e.POST("/api/:version/saas/suspend", c.SuspendPost)
 
@@ -59,9 +58,15 @@ func main() {
 	//---------------------------------------------------------
 	// PurchasedGet - purchased
 	e.GET("/api/:version/saas/purchased/:subscription_id", c.PurchasedGet)
-
 	// ConfigureGet - configure
 	e.GET("/api/:version/saas/configure/:subscription_id", c.ConfigureGet)
+
+	// Usefull SaaS APIs
+	//---------------------------------------------------------
+	// GetSubscription - get subscription
+	e.GET("/api/:version/saas/subscription/:subscription_id", c.GetSubscription)
+	// GetSubscriptions - get subscriptions
+	e.GET("/api/:version/saas/subscriptions", c.GetSubscriptions)
 
 	// Start server
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", internal.AppConfig.Port)))

@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/fluffy-bunny/echo_mini_mona_saas_app/models"
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog/log"
 )
@@ -20,7 +21,7 @@ func (c *Container) ConfigureGet(ctx echo.Context) error {
 	log := log.With().Caller().Str("func", "PurchasedGet").Logger()
 	u := new(configParams)
 	if err := ctx.Bind(u); err != nil {
-		return err
+		return ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{Error: err.Error()})
 	}
 	log.Debug().Interface("params", u).Msg("params")
 
