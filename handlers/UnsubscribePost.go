@@ -9,18 +9,17 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// UnsubscribePost - unsubscribe POST
+// UnsubscribePost - POST
 func (c *Container) UnsubscribePost(ctx echo.Context) error {
 	log := log.With().Caller().Str("func", "UnsubscribePost").Logger()
-	log.Info().Msg("UnsubscribePost")
 
 	var err error
-	unsubscribeRecord := &models.Unsubscribe{}
-	err = internal.UnmarshalFromRequestBody(ctx, unsubscribeRecord)
+	record := &models.Unsubscribe{}
+	err = internal.UnmarshalFromRequestBody(ctx, record)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to unmarshal body")
 		return ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{Error: err.Error()})
 	}
 
-	return ctx.JSON(http.StatusOK, unsubscribeRecord)
+	return ctx.JSON(http.StatusOK, record)
 }

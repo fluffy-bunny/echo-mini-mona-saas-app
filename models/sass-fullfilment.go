@@ -87,7 +87,7 @@ type (
 		} `json:"subscription"`
 		PurchaseToken string `json:"purchaseToken"`
 	}
-	Reinstatement struct {
+	Reinstate struct {
 		ID             string    `json:"id"`
 		ActivityID     string    `json:"activityId"`
 		SubscriptionID string    `json:"subscriptionId"`
