@@ -1,4 +1,4 @@
-package handlers
+package webhooks
 
 import (
 	"net/http"
@@ -9,12 +9,16 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// ReinstatePost - POST
-func (c *Container) ReinstatePost(ctx echo.Context) error {
-	log := log.With().Caller().Str("func", "ReinstatePost").Logger()
+// UnsubscribePost - POST
+// 1. we got the unsubscribe request
+// 2. we update the operation status to "Success" or "Failure"
+// This request should be immediately offloaded to a workflow engine like temporal that would eventually make the operations callback
+// using the operations api to set the status as "Success" or "Failure"
+func (c *Container) UnsubscribePost(ctx echo.Context) error {
+	log := log.With().Caller().Str("func", "UnsubscribePost").Logger()
 
 	var err error
-	record := &models.Reinstate{}
+	record := &models.Unsubscribe{}
 	err = internal.UnmarshalFromRequestBody(ctx.Request().Body, record)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to unmarshal body")

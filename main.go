@@ -5,7 +5,10 @@ import (
 	"fmt"
 
 	"github.com/fatih/structs"
-	"github.com/fluffy-bunny/echo_mini_mona_saas_app/handlers"
+	handlers "github.com/fluffy-bunny/echo_mini_mona_saas_app/handlers"
+	handlers_fullfillment "github.com/fluffy-bunny/echo_mini_mona_saas_app/handlers/fullfillment"
+	handlers_webhook "github.com/fluffy-bunny/echo_mini_mona_saas_app/handlers/webhooks"
+
 	"github.com/fluffy-bunny/echo_mini_mona_saas_app/internal"
 	"github.com/fluffy-bunny/viperEx"
 	"github.com/labstack/echo/v4"
@@ -32,7 +35,8 @@ func main() {
 
 	//todo: handle the error!
 	c, _ := handlers.NewContainer()
-
+	webhooksHandlers, _ := handlers_webhook.NewContainer()
+	fullfillmentHandlers, _ := handlers_fullfillment.NewContainer()
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
@@ -40,19 +44,19 @@ func main() {
 	// Webhooks
 	//---------------------------------------------------------
 	// ChangePlanPost - change-plan POST
-	e.POST("/api/:version/saas/change-plan", c.ChangePlanPost)
+	e.POST("/api/:version/saas/change-plan", webhooksHandlers.ChangePlanPost)
 	// ChangeQuantityPost - change-quantity POST
-	e.POST("/api/:version/saas/change-quantity", c.ChangeQuantityPost)
+	e.POST("/api/:version/saas/change-quantity", webhooksHandlers.ChangeQuantityPost)
 	// RenewPost - renew POST
-	e.POST("/api/:version/saas/renew", c.RenewPost)
+	e.POST("/api/:version/saas/renew", webhooksHandlers.RenewPost)
 	// SuspendPost - suspend POST
-	e.POST("/api/:version/saas/suspend", c.SuspendPost)
+	e.POST("/api/:version/saas/suspend", webhooksHandlers.SuspendPost)
 	// UnsubscribePost - unsubscribe POST
-	e.POST("/api/:version/saas/unsubscribe", c.UnsubscribePost)
+	e.POST("/api/:version/saas/unsubscribe", webhooksHandlers.UnsubscribePost)
 	// ReinstatePost - reinstate POST
-	e.POST("/api/:version/saas/reinstate", c.ReinstatePost)
+	e.POST("/api/:version/saas/reinstate", webhooksHandlers.ReinstatePost)
 	// SuspendPost - suspend - POST
-	e.POST("/api/:version/saas/suspend", c.SuspendPost)
+	e.POST("/api/:version/saas/suspend", webhooksHandlers.SuspendPost)
 
 	// Landing Pages
 	//---------------------------------------------------------
@@ -64,12 +68,14 @@ func main() {
 	// Usefull SaaS APIs
 	//---------------------------------------------------------
 	// GetSubscription - get subscription
-	e.GET("/api/:version/saas/subscription/:subscription_id", c.GetSubscription)
+	e.GET("/api/:version/saas/subscription/:subscription_id", fullfillmentHandlers.GetSubscription)
 	// GetSubscriptions - get subscriptions
-	e.GET("/api/:version/saas/subscriptions", c.GetSubscriptions)
+	e.GET("/api/:version/saas/subscriptions", fullfillmentHandlers.GetSubscriptions)
 	// Activate Subscription - POST
-	e.POST("/api/:version/saas/subscription/:subscription_id/activate", c.ActivateSubscriptionPost)
+	e.POST("/api/:version/saas/subscription/:subscription_id/activate", fullfillmentHandlers.ActivateSubscriptionPost)
+
 	// Start server
+	//---------------------------------------------------------
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", internal.AppConfig.Port)))
 }
 

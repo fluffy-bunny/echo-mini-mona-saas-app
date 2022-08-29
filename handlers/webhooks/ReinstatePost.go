@@ -1,4 +1,4 @@
-package handlers
+package webhooks
 
 import (
 	"net/http"
@@ -9,12 +9,12 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// ChangePlanPost - POST
-func (c *Container) ChangePlanPost(ctx echo.Context) error {
-	log := log.With().Caller().Str("func", "ChangePlanPost").Logger()
+// ReinstatePost - POST
+func (c *Container) ReinstatePost(ctx echo.Context) error {
+	log := log.With().Caller().Str("func", "ReinstatePost").Logger()
 
 	var err error
-	record := &models.ChangePlan{}
+	record := &models.Reinstate{}
 	err = internal.UnmarshalFromRequestBody(ctx.Request().Body, record)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to unmarshal body")
