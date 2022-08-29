@@ -67,7 +67,8 @@ func main() {
 	e.GET("/api/:version/saas/subscription/:subscription_id", c.GetSubscription)
 	// GetSubscriptions - get subscriptions
 	e.GET("/api/:version/saas/subscriptions", c.GetSubscriptions)
-
+	// Activate Subscription - POST
+	e.POST("/api/:version/saas/subscription/:subscription_id/activate", c.ActivateSubscriptionPost)
 	// Start server
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", internal.AppConfig.Port)))
 }
