@@ -30,4 +30,220 @@ type (
 			AadTenantID string `json:"aadTenantId"`
 		} `json:"purchaser"`
 	}
+	ChangePlan struct {
+		ID                     string    `json:"id"`
+		ActivityID             string    `json:"activityId"`
+		OperationRequestSource string    `json:"operationRequestSource"`
+		SubscriptionID         string    `json:"subscriptionId"`
+		TimeStamp              time.Time `json:"timeStamp"`
+		Action                 string    `json:"action"`
+	}
+	ChangeQuantity struct {
+		ID                     string    `json:"id"`
+		ActivityID             string    `json:"activityId"`
+		PublisherID            string    `json:"publisherId"`
+		OfferID                string    `json:"offerId"`
+		PlanID                 string    `json:"planId"`
+		Quantity               int       `json:"quantity"`
+		SubscriptionID         string    `json:"subscriptionId"`
+		TimeStamp              time.Time `json:"timeStamp"`
+		Action                 string    `json:"action"`
+		Status                 string    `json:"status"`
+		OperationRequestSource string    `json:"operationRequestSource"`
+		Subscription           struct {
+			ID          string `json:"id"`
+			Name        string `json:"name"`
+			PublisherID string `json:"publisherId"`
+			OfferID     string `json:"offerId"`
+			PlanID      string `json:"planId"`
+			Quantity    int    `json:"quantity"`
+			Beneficiary struct {
+				EmailID  string `json:"emailId"`
+				ObjectID string `json:"objectId"`
+				TenantID string `json:"tenantId"`
+				Puid     string `json:"puid"`
+			} `json:"beneficiary"`
+			Purchaser struct {
+				EmailID  string `json:"emailId"`
+				ObjectID string `json:"objectId"`
+				TenantID string `json:"tenantId"`
+				Puid     string `json:"puid"`
+			} `json:"purchaser"`
+			AllowedCustomerOperations []string `json:"allowedCustomerOperations"`
+			SessionMode               string   `json:"sessionMode"`
+			IsFreeTrial               bool     `json:"isFreeTrial"`
+			IsTest                    bool     `json:"isTest"`
+			SandboxType               string   `json:"sandboxType"`
+			SaasSubscriptionStatus    string   `json:"saasSubscriptionStatus"`
+			Term                      struct {
+				StartDate      time.Time `json:"startDate"`
+				EndDate        time.Time `json:"endDate"`
+				TermUnit       string    `json:"termUnit"`
+				ChargeDuration string    `json:"chargeDuration"`
+			} `json:"term"`
+			AutoRenew    bool      `json:"autoRenew"`
+			Created      time.Time `json:"created"`
+			LastModified time.Time `json:"lastModified"`
+		} `json:"subscription"`
+		PurchaseToken string `json:"purchaseToken"`
+	}
+	Reinstatement struct {
+		ID             string    `json:"id"`
+		ActivityID     string    `json:"activityId"`
+		SubscriptionID string    `json:"subscriptionId"`
+		PublisherID    string    `json:"publisherId"`
+		OfferID        string    `json:"offerId"`
+		PlanID         string    `json:"planId"`
+		Quantity       int       `json:"quantity"`
+		TimeStamp      time.Time `json:"timeStamp"`
+		Action         string    `json:"action"`
+		Status         string    `json:"status"`
+	}
+	Renew struct {
+		ID                     string    `json:"id"`
+		ActivityID             string    `json:"activityId"`
+		PublisherID            string    `json:"publisherId"`
+		OfferID                string    `json:"offerId"`
+		PlanID                 string    `json:"planId"`
+		Quantity               int       `json:"quantity"`
+		SubscriptionID         string    `json:"subscriptionId"`
+		TimeStamp              time.Time `json:"timeStamp"`
+		Action                 string    `json:"action"`
+		Status                 string    `json:"status"`
+		OperationRequestSource string    `json:"operationRequestSource"`
+		Subscription           struct {
+			ID          string `json:"id"`
+			Name        string `json:"name"`
+			PublisherID string `json:"publisherId"`
+			OfferID     string `json:"offerId"`
+			PlanID      string `json:"planId"`
+			Quantity    int    `json:"quantity"`
+			Beneficiary struct {
+				EmailID  string `json:"emailId"`
+				ObjectID string `json:"objectId"`
+				TenantID string `json:"tenantId"`
+				Puid     string `json:"puid"`
+			} `json:"beneficiary"`
+			Purchaser struct {
+				EmailID  string `json:"emailId"`
+				ObjectID string `json:"objectId"`
+				TenantID string `json:"tenantId"`
+				Puid     string `json:"puid"`
+			} `json:"purchaser"`
+			AllowedCustomerOperations []string `json:"allowedCustomerOperations"`
+			SessionMode               string   `json:"sessionMode"`
+			IsFreeTrial               bool     `json:"isFreeTrial"`
+			IsTest                    bool     `json:"isTest"`
+			SandboxType               string   `json:"sandboxType"`
+			SaasSubscriptionStatus    string   `json:"saasSubscriptionStatus"`
+			Term                      struct {
+				StartDate      time.Time `json:"startDate"`
+				EndDate        time.Time `json:"endDate"`
+				TermUnit       string    `json:"termUnit"`
+				ChargeDuration string    `json:"chargeDuration"`
+			} `json:"term"`
+			AutoRenew    bool      `json:"autoRenew"`
+			Created      time.Time `json:"created"`
+			LastModified time.Time `json:"lastModified"`
+		} `json:"subscription"`
+		PurchaseToken string `json:"purchaseToken"`
+	}
+	Suspend struct {
+		ID                     string    `json:"id"`
+		ActivityID             string    `json:"activityId"`
+		PublisherID            string    `json:"publisherId"`
+		OfferID                string    `json:"offerId"`
+		PlanID                 string    `json:"planId"`
+		Quantity               int       `json:"quantity"`
+		SubscriptionID         string    `json:"subscriptionId"`
+		TimeStamp              time.Time `json:"timeStamp"`
+		Action                 string    `json:"action"`
+		Status                 string    `json:"status"`
+		OperationRequestSource string    `json:"operationRequestSource"`
+		Subscription           struct {
+			ID          string `json:"id"`
+			Name        string `json:"name"`
+			PublisherID string `json:"publisherId"`
+			OfferID     string `json:"offerId"`
+			PlanID      string `json:"planId"`
+			Quantity    int    `json:"quantity"`
+			Beneficiary struct {
+				EmailID  string `json:"emailId"`
+				ObjectID string `json:"objectId"`
+				TenantID string `json:"tenantId"`
+				Puid     string `json:"puid"`
+			} `json:"beneficiary"`
+			Purchaser struct {
+				EmailID  string `json:"emailId"`
+				ObjectID string `json:"objectId"`
+				TenantID string `json:"tenantId"`
+				Puid     string `json:"puid"`
+			} `json:"purchaser"`
+			AllowedCustomerOperations []string `json:"allowedCustomerOperations"`
+			SessionMode               string   `json:"sessionMode"`
+			IsFreeTrial               bool     `json:"isFreeTrial"`
+			IsTest                    bool     `json:"isTest"`
+			SandboxType               string   `json:"sandboxType"`
+			SaasSubscriptionStatus    string   `json:"saasSubscriptionStatus"`
+			Term                      struct {
+				StartDate      time.Time `json:"startDate"`
+				EndDate        time.Time `json:"endDate"`
+				TermUnit       string    `json:"termUnit"`
+				ChargeDuration string    `json:"chargeDuration"`
+			} `json:"term"`
+			AutoRenew    bool      `json:"autoRenew"`
+			Created      time.Time `json:"created"`
+			LastModified time.Time `json:"lastModified"`
+		} `json:"subscription"`
+		PurchaseToken string `json:"purchaseToken"`
+	}
+	Unsubscribe struct {
+		ID                     string    `json:"id"`
+		ActivityID             string    `json:"activityId"`
+		PublisherID            string    `json:"publisherId"`
+		OfferID                string    `json:"offerId"`
+		PlanID                 string    `json:"planId"`
+		Quantity               int       `json:"quantity"`
+		SubscriptionID         string    `json:"subscriptionId"`
+		TimeStamp              time.Time `json:"timeStamp"`
+		Action                 string    `json:"action"`
+		Status                 string    `json:"status"`
+		OperationRequestSource string    `json:"operationRequestSource"`
+		Subscription           struct {
+			ID          string `json:"id"`
+			Name        string `json:"name"`
+			PublisherID string `json:"publisherId"`
+			OfferID     string `json:"offerId"`
+			PlanID      string `json:"planId"`
+			Quantity    int    `json:"quantity"`
+			Beneficiary struct {
+				EmailID  string `json:"emailId"`
+				ObjectID string `json:"objectId"`
+				TenantID string `json:"tenantId"`
+				Puid     string `json:"puid"`
+			} `json:"beneficiary"`
+			Purchaser struct {
+				EmailID  string `json:"emailId"`
+				ObjectID string `json:"objectId"`
+				TenantID string `json:"tenantId"`
+				Puid     string `json:"puid"`
+			} `json:"purchaser"`
+			AllowedCustomerOperations []string `json:"allowedCustomerOperations"`
+			SessionMode               string   `json:"sessionMode"`
+			IsFreeTrial               bool     `json:"isFreeTrial"`
+			IsTest                    bool     `json:"isTest"`
+			SandboxType               string   `json:"sandboxType"`
+			SaasSubscriptionStatus    string   `json:"saasSubscriptionStatus"`
+			Term                      struct {
+				StartDate      time.Time `json:"startDate"`
+				EndDate        time.Time `json:"endDate"`
+				TermUnit       string    `json:"termUnit"`
+				ChargeDuration string    `json:"chargeDuration"`
+			} `json:"term"`
+			AutoRenew    bool      `json:"autoRenew"`
+			Created      time.Time `json:"created"`
+			LastModified time.Time `json:"lastModified"`
+		} `json:"subscription"`
+		PurchaseToken string `json:"purchaseToken"`
+	}
 )
