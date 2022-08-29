@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/fatih/structs"
-	handlers "github.com/fluffy-bunny/echo_mini_mona_saas_app/handlers"
 	handlers_fullfillment "github.com/fluffy-bunny/echo_mini_mona_saas_app/handlers/fullfillment"
+	handlers_landing "github.com/fluffy-bunny/echo_mini_mona_saas_app/handlers/landing"
 	handlers_webhook "github.com/fluffy-bunny/echo_mini_mona_saas_app/handlers/webhooks"
 
 	"github.com/fluffy-bunny/echo_mini_mona_saas_app/internal"
@@ -34,7 +34,7 @@ func main() {
 	e := echo.New()
 
 	//todo: handle the error!
-	c, _ := handlers.NewContainer()
+	landingHandlers, _ := handlers_landing.NewContainer()
 	webhooksHandlers, _ := handlers_webhook.NewContainer()
 	fullfillmentHandlers, _ := handlers_fullfillment.NewContainer()
 	// Middleware
@@ -61,9 +61,9 @@ func main() {
 	// Landing Pages
 	//---------------------------------------------------------
 	// PurchasedGet - purchased
-	e.GET("/api/:version/saas/purchased/:subscription_id", c.PurchasedGet)
+	e.GET("/api/:version/saas/purchased/:subscription_id", landingHandlers.PurchasedGet)
 	// ConfigureGet - configure
-	e.GET("/api/:version/saas/configure/:subscription_id", c.ConfigureGet)
+	e.GET("/api/:version/saas/configure/:subscription_id", landingHandlers.ConfigureGet)
 
 	// Usefull SaaS APIs
 	//---------------------------------------------------------
