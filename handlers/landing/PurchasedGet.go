@@ -73,7 +73,8 @@ func (c *Container) PurchasedGet(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, "missing_params")
 	}
 	log.Info().Msg("got subscription_id")
-
+	// Pull the subscription information from our storage account
+	//----------------------------------------
 	subInfoUrl := fmt.Sprintf(subscriptionInfoFmt, internal.AppConfig.MonaStorageAccountName, u.SubQuery)
 	log.Info().Str("subInfoUrl", subInfoUrl).Send()
 
@@ -84,6 +85,8 @@ func (c *Container) PurchasedGet(ctx echo.Context) error {
 	}
 	log.Info().Interface("subInfo", subInfo).Send()
 
+	// Make a call back to the market place to activate the subscription
+	//----------------------------------------
 	fa := fullfillment_apis.New(internal.AzureHttpClient)
 	err = fa.ActivateSubscription(u.SubscriptionID, &models.ActivateRequest{
 		PlanID:   "plan:pro",
@@ -110,7 +113,15 @@ func FetchSubscriptionInfo(subInfoUrl string) (*models.SubscriptionInfo, error) 
 	}
 
 	subInfo := &models.SubscriptionInfo{}
-	err = json.Unmarshal(resp.Body(), &subInfo)
+	bodyBytes := resp.Body()
+	generic := make(map[string]interface{})
+	err = json.Unmarshal(bodyBytes, &generic)
+	if err != nil {
+		return nil, err
+	}
+	log.Info().Interface("generic", generic).Send()
+
+	err = json.Unmarshal(bodyBytes, &subInfo)
 	if err != nil {
 		return nil, err
 	}

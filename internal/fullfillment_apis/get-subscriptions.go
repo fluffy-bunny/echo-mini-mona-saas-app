@@ -19,7 +19,7 @@ func (s *Service) GetSubscriptions() ([]models.Subscription, error) {
 	}
 	log.Info().Int("StatusCode", httpResponse.StatusCode).Msg("Get Subscriptions")
 	record := &models.Subscriptions{}
-	err = internal.UnmarshalFromRequestBody(httpResponse.Body, record)
+	err = internal.SafeUnmarshalFromHttpResponse(httpResponse, record)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to unmarshal body")
 		return nil, err

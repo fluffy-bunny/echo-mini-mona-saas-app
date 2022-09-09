@@ -3,6 +3,32 @@ package models
 import "time"
 
 type (
+	UnsubscribeSubscriptionInfo struct {
+		SubscriptionID   string `json:"subscriptionId"`
+		SubscriptionName string `json:"subscriptionName"`
+		OfferID          string `json:"offerId"`
+		PlanID           string `json:"planId"`
+		IsTest           bool   `json:"isTest"`
+		IsFreeTrial      bool   `json:"isFreeTrial"`
+		SeatQuantity     int    `json:"seatQuantity"`
+		Status           string `json:"status"`
+		Beneficiary      struct {
+			UserID      string `json:"userId"`
+			UserEmail   string `json:"userEmail"`
+			AadObjectID string `json:"aadObjectId"`
+			AadTenantID string `json:"aadTenantId"`
+		} `json:"beneficiary"`
+		Purchaser struct {
+			UserID      string `json:"userId"`
+			UserEmail   string `json:"userEmail"`
+			AadObjectID string `json:"aadObjectId"`
+			AadTenantID string `json:"aadTenantId"`
+		} `json:"purchaser"`
+	}
+	UnsubscribeInfo struct {
+		OperationId  string                      `json:"operationId"`
+		Subscription UnsubscribeSubscriptionInfo `json:"subscription"`
+	}
 	SubscriptionInfo struct {
 		SubscriptionID   string `json:"subscriptionId"`
 		SubscriptionName string `json:"subscriptionName"`

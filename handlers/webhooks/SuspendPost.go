@@ -15,7 +15,7 @@ func (c *Container) SuspendPost(ctx echo.Context) error {
 
 	var err error
 	record := &models.Suspend{}
-	err = internal.UnmarshalFromRequestBody(ctx.Request().Body, record)
+	err = internal.SafeUnmarshalFromHttpRequest(ctx.Request(), record)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to unmarshal body")
 		return ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{Error: err.Error()})

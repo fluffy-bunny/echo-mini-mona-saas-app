@@ -3,35 +3,56 @@ package internal
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"io"
-
-	"github.com/labstack/echo/v4"
+	"net/http"
 )
 
-func SafeUnmarshalRequestFromBody(ctx echo.Context, v interface{}) error {
+func SafeGetBodyFromHttpResponse(response *http.Response) ([]byte, error) {
 	var bodyBytes []byte
 	// Read the Body content
-	bodyBytes, _ = io.ReadAll(ctx.Request().Body)
+	bodyBytes, err := io.ReadAll(response.Body)
+	if err != nil {
+		return nil, err
+	}
 	defer func() {
-		ctx.Request().Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
+		response.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 	}()
-	err := json.Unmarshal(bodyBytes, &v)
+	return bodyBytes, nil
+}
+func SafeGetBodyFromHttpRequest(request *http.Request) ([]byte, error) {
+	var bodyBytes []byte
+	// Read the Body content
+	bodyBytes, err := io.ReadAll(request.Body)
+	if err != nil {
+		return nil, err
+	}
+	defer func() {
+		request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
+	}()
+	return bodyBytes, nil
+}
+func SafeUnmarshalFromHttpResponse(response *http.Response, v interface{}) error {
+	var bodyBytes []byte
+	// Read the Body content
+	bodyBytes, err := SafeGetBodyFromHttpResponse(response)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(bodyBytes, &v)
 	if err != nil {
 		return err
 	}
 	return nil
 }
-func UnmarshalFromRequestBody(body io.Reader, v interface{}) error {
-	if body == nil {
-		return errors.New("body is nil")
-	}
-
+func SafeUnmarshalFromHttpRequest(request *http.Request, v interface{}) error {
 	var bodyBytes []byte
 	// Read the Body content
-	bodyBytes, _ = io.ReadAll(body)
-
-	err := json.Unmarshal(bodyBytes, &v)
+	bodyBytes, err := SafeGetBodyFromHttpRequest(request)
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(bodyBytes, &v)
 	if err != nil {
 		return err
 	}

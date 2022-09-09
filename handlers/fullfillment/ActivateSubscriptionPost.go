@@ -19,7 +19,7 @@ func (c *Container) ActivateSubscriptionPost(ctx echo.Context) error {
 	log := log.With().Caller().Str("func", "GetSubscription").Logger()
 
 	activateRequest := &models.ActivateRequest{}
-	err := internal.SafeUnmarshalRequestFromBody(ctx, activateRequest)
+	err := internal.SafeUnmarshalFromHttpRequest(ctx.Request(), activateRequest)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to unmarshal activate request")
 		return ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{Error: err.Error()})

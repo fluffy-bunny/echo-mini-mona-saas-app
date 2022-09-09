@@ -60,6 +60,8 @@ func main() {
 
 	// Landing Pages
 	//---------------------------------------------------------
+	// HomeGet - home
+	e.GET("/", landingHandlers.HomeGet)
 	// PurchasedGet - purchased
 	e.GET("/api/:version/saas/purchased/:subscription_id", landingHandlers.PurchasedGet)
 	// ConfigureGet - configure
