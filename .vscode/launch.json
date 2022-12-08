@@ -10,8 +10,10 @@
             "request": "launch",
             "mode": "debug",
             "program": "${workspaceFolder}",
+            "envFile": "${workspaceFolder}/prod.env",
+
             "env": {
-                "PORT":"1323",
+                "PORT":"1423",
                 //"AZURE_AD__CREDENTIALS__CLIENT_ID":"[in-environment]",
                 //"AZURE_AD__CREDENTIALS__CLIENT_SECRET":"[in-environment]",
                 //"AZURE_AD__TENANT":"[in-environment]",

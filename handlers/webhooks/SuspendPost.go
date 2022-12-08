@@ -14,7 +14,7 @@ func (c *Container) SuspendPost(ctx echo.Context) error {
 	log := log.With().Caller().Str("func", "SuspendPost").Logger()
 
 	var err error
-	record := &models.Suspend{}
+	record := &models.SuspendWebhook{}
 	err = internal.SafeUnmarshalFromHttpRequest(ctx.Request(), record)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to unmarshal body")

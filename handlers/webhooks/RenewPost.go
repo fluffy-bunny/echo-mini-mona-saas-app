@@ -14,7 +14,7 @@ func (c *Container) RenewPost(ctx echo.Context) error {
 	log := log.With().Caller().Str("func", "RenewPost").Logger()
 
 	var err error
-	record := &models.Renew{}
+	record := &models.RenewWebhook{}
 	err = internal.SafeUnmarshalFromHttpRequest(ctx.Request(), record)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to unmarshal body")

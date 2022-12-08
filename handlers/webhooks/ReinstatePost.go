@@ -14,7 +14,7 @@ func (c *Container) ReinstatePost(ctx echo.Context) error {
 	log := log.With().Caller().Str("func", "ReinstatePost").Logger()
 
 	var err error
-	record := &models.Reinstate{}
+	record := &models.ReinstateWebhook{}
 	err = internal.SafeUnmarshalFromHttpRequest(ctx.Request(), record)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to unmarshal body")

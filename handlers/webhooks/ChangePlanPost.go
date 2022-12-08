@@ -14,7 +14,7 @@ func (c *Container) ChangePlanPost(ctx echo.Context) error {
 	log := log.With().Caller().Str("func", "ChangePlanPost").Logger()
 
 	var err error
-	record := &models.ChangePlan{}
+	record := &models.ChangePlanWebhook{}
 	err = internal.SafeUnmarshalFromHttpRequest(ctx.Request(), record)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to unmarshal body")

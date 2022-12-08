@@ -43,6 +43,10 @@ func main() {
 
 	// Webhooks
 	//---------------------------------------------------------
+
+	// SuspendPost - suspend - POST
+	e.POST("/api/:version/saas/webhook", webhooksHandlers.WebhookPost)
+
 	// ChangePlanPost - change-plan POST
 	e.POST("/api/:version/saas/change-plan", webhooksHandlers.ChangePlanPost)
 	// ChangeQuantityPost - change-quantity POST
@@ -63,6 +67,8 @@ func main() {
 	// HomeGet - home
 	e.GET("/", landingHandlers.HomeGet)
 
+	// SignupGet - purchased
+	e.GET("/api/:version/saas/signup", landingHandlers.SignupGet)
 	// PurchasedGet - purchased
 	e.GET("/api/:version/saas/purchased/:subscription_id", landingHandlers.PurchasedGet)
 	// ConfigureGet - configure

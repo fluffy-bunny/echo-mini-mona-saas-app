@@ -14,7 +14,7 @@ func (c *Container) ChangeQuantityPost(ctx echo.Context) error {
 	log := log.With().Caller().Str("func", "ChangeQuantityPost").Logger()
 
 	var err error
-	record := &models.ChangeQuantity{}
+	record := &models.ChangeQuantityWebhook{}
 	err = internal.SafeUnmarshalFromHttpRequest(ctx.Request(), record)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to unmarshal body")

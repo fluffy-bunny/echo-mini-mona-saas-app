@@ -3,6 +3,7 @@ package internal
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 )
@@ -26,6 +27,7 @@ func SafeGetBodyFromHttpRequest(request *http.Request) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(string(bodyBytes))
 	defer func() {
 		request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 	}()
@@ -38,7 +40,7 @@ func SafeUnmarshalFromHttpResponse(response *http.Response, v interface{}) error
 	if err != nil {
 		return err
 	}
-
+	fmt.Println(string(bodyBytes))
 	err = json.Unmarshal(bodyBytes, v)
 	if err != nil {
 		return err
